@@ -62,6 +62,12 @@ body {
     margin-bottom: 32px;
 }
 
+.player .player--songInfo img.playing {
+    width: 72px;
+    opacity: 0;
+    transition: 1s all ease;
+}
+
 .player .player--songInfo .seekbar {
     border-radius: 4px;
     background-color: #f2f2f2;

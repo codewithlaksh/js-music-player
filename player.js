@@ -15,6 +15,7 @@ let songNameEl = document.querySelector('h1.songName');
 let songsList = document.querySelector('ul.songsList');
 let seekbar = document.querySelector('div.seekbar');
 let circle = seekbar.querySelector('span.circle');
+let playingImg = document.querySelector('img.playing');
 let index = 0;
 let audio = new Audio(songs[index].songSrc);
 songNameEl.innerText = songs[index].songName;
@@ -52,6 +53,7 @@ async function getSongs() {
     for (let song of songs) {
         const duration = await getAudioDuration(song.songSrc);
         str += `<li class="songItem">
+        <img class="songItemPlay" src="images/play.svg" alt="" />
         <p>${song.songName}</p>
         <p>${secondsToMinutesSeconds(duration)}</p>
         </li>`
@@ -60,9 +62,11 @@ async function getSongs() {
     songsList.innerHTML = str;
     document.querySelectorAll('li.songItem')[index].style.background = 'dodgerblue';
     document.querySelectorAll('li.songItem')[index].style.color = 'white';
+    document.querySelectorAll('img.songItemPlay')[index].src = 'images/play-white.svg';
 
     Array.from(document.querySelectorAll('li.songItem')).forEach((element, i) => {
-        element.addEventListener('click', (e) => {
+        const songItemPlay = element.querySelector('img.songItemPlay');
+        songItemPlay.addEventListener('click', (e) => {
             audio.pause();
             audio.currentTime = 0;
             index = i;
@@ -77,15 +81,17 @@ async function getSongs() {
 getSongs();
 
 const changeBg = (index) => {
-    let arr = Array.from(document.querySelectorAll('li.songItem'));
+    let songItems = Array.from(document.querySelectorAll('li.songItem'));
+    let songItemPlays = Array.from(document.querySelectorAll('img.songItemPlay'));
 
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = 0; i < songItems.length; i++) {
         if (i === index) {
-            arr[i].style.background = 'dodgerblue';
-            arr[i].style.color = 'white';
+            songItems[i].style.background = 'dodgerblue';
+            songItems[i].style.color = 'white';
+            songItemPlays[i].src = 'images/pause-white.svg';
         } else {
-            arr[i].style.background = 'white';
-            arr[i].style.color = 'black';
+            songItems[i].removeAttribute('style');
+            songItemPlays[i].src = 'images/play.svg';
         }
     }
 }
@@ -116,10 +122,14 @@ const playMusic = () => {
     songNameEl.innerText = songs[index].songName;
     if (audio.paused) {
         audio.play();
+        Array.from(document.querySelectorAll('img.songItemPlay'))[index].src = 'images/pause-white.svg';
         playBtn.src = 'images/pause.svg';
+        playingImg.style.opacity = 1;
     } else {
         audio.pause();
         playBtn.src = 'images/play.svg';
+        Array.from(document.querySelectorAll('img.songItemPlay'))[index].src = 'images/play-white.svg';
+        playingImg.style.opacity = 0;
 
     }
     audio.addEventListener('timeupdate', () => {
