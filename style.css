@@ -105,3 +105,10 @@ body {
     margin-bottom: 16px;
     cursor: pointer;
 }
+
+.player .time-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+}
