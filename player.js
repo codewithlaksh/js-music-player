@@ -198,12 +198,6 @@ repeatBtn.addEventListener('click', (e) => {
     }
 })
 
-document.addEventListener('keypress', (e) => {
-    if (e.code === 'Space') {
-        playMusic();
-    }
-})
-
 document.addEventListener('contextmenu', (e) => e.preventDefault())
 
 document.addEventListener('keydown', (e) => {
@@ -212,6 +206,9 @@ document.addEventListener('keydown', (e) => {
     }
     else if (e.key === 'ArrowLeft') {
         audio.currentTime -= 5;
+    }
+    else if (e.code === 'Space') {
+        playMusic();
     }
     else {
         e.preventDefault();
